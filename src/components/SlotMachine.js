@@ -52,22 +52,7 @@ function Reel(props) {
   );
 }
 
-function getNeigborths(position){
-    if(position.type === 'Center') {
-        if(position.index === 4) {
-          return  {topIndex: 0,
-           bottomIndex: 3}
-        }
-        if(position.index === 0) {
-            return {topIndex: 0,
-                bottomIndex: 3}
-             }
-        }
-        else {
-            return {topIndex: position.index + 1,
-                bottomIndex: position.index - 1 }
-        }
-    }
+
 
 
 function createAnimation(position) {

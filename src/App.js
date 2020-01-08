@@ -19,7 +19,7 @@ function App() {
       line: "Center"
     }
   });
-  const spinRandom = compose(setPositions, symbolsOnWinLines, winLinesToStopOn);
+  const spinRandom = compose(setPositions,  symbolsOnStopLines, winLinesToStopOn);
   return (
     <div className="App">
       <SlotMachine positions={positions} />
@@ -35,7 +35,7 @@ function winLinesToStopOn() {
   return [stopLine(), stopLine(), stopLine()];
 }
 // Decide which symbol will take stop position on all 3 reels
-function symbolsOnWinLines(stopPosition) {
+function symbolsOnStopLines(stopPosition) {
   const beetween0And4 =  () => Math.floor(Math.random() * Math.floor(5));
   return { 
     firstReel: {
@@ -52,5 +52,21 @@ function symbolsOnWinLines(stopPosition) {
     }
   }
 }
+function StopSymbolNeighbors(position){
+  if(position.type === 'Center') {
+      if(position.index === 4) {
+        return  {topIndex: 0,
+         bottomIndex: 3}
+      }
+      if(position.index === 0) {
+          return {topIndex: 0,
+              bottomIndex: 3}
+           }
+      }
+      else {
+          return {topIndex: position.index + 1,
+              bottomIndex: position.index - 1 }
+      }
+  }
 
 export default App;
