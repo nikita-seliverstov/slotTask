@@ -31,15 +31,6 @@
   position: absolute;
   transform-style: preserve-3d;
 }
-@keyframes x-spin {
-  0% {
-    transform: rotateX(0deg);
-  }
-
-  100% {
-    transform: rotateX(-90deg);
-  }
-}
 
 .reel__cell {
   position: absolute;

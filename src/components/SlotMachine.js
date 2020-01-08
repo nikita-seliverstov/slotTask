@@ -9,9 +9,9 @@ function SlotMachine(props) {
   return (
     <div className="slotMachine">
       <div className="row">
-        <Reel animation={props.keyframeAnimation} />
-        <Reel />
-        <Reel />
+        <Reel position={props.positions.firstReel} />
+        <Reel position={props.positions.secondReel} />
+        <Reel position={props.positions.thirdReel} />
       </div>
     </div>
   );
@@ -26,11 +26,11 @@ function Reel(props) {
   ];
   const Reel = styled.div`
     ${props =>
-      props.animation &&
+      props.position &&
       css`
-        animation: ${props.animation};
+        animation: ${createAnimation(props.position)};
         animation-duration: 2s;
-        transform: rotateX(-288deg);
+        transform: ${rotateReel(props.position)};
       `}
   `;
   const Cell = styled.div`
@@ -40,7 +40,7 @@ function Reel(props) {
   return (
     <div className="col-4">
       <div className="scene">
-        <Reel animation={props.animation} className={"reel"}>
+        <Reel  position={props.position} className={"reel"}  >
           {cells.map((cell, index) => (
             <Cell index={index} className={"reel__cell"}>
               <img className="slotImages" alt={index} src={cell.img}></img>
@@ -51,20 +51,22 @@ function Reel(props) {
     </div>
   );
 }
-
+function rotateReel(position){
+  return  `rotateX(${position.centerIndex !== false ? position.centerIndex * -72 : (position.topIndex * -72) + 36 }deg)`;
+}
 
 
 
 function createAnimation(position) {
-  setAnimation(keyframes`
+ return (keyframes`
       0% {
         transform: rotateX(0deg);
       }
     
       100% {
-        transform: rotateX(-288deg);
+        transform: rotateX(${position.centerIndex !== false ? (position.centerIndex * -72) - 3600  : ((position.topIndex * -72)  +36) - 360 }deg);
       }
-    `);
+    `)
 }
 
 export default SlotMachine;
