@@ -1,46 +1,56 @@
-import React from "react";
+import React, { useState } from "react";
+import { Button } from "reactstrap";
+import { compose } from 'ramda';
 import "./App.css";
-import Img3xBAR from "./images/3xBAR.png";
-import Img2xBAR from "./images/2xBAR.png";
-import ImgBAR from "./images/BAR.png";
-import Img7 from "./images/7.png";
-import ImgCherry from "./images/Cherry.png";
-import 'bootstrap/dist/css/bootstrap.css';
-
+import "./components/SlotMachine";
+import SlotMachine from "./components/SlotMachine";
 function App() {
+  const [positions, setPositions] = useState({
+    firstReel: {
+      stopSymbolIndex: 0,
+      line: "Center"
+    },
+    secondReel: {
+      stopSymbolIndex: 0,
+      line: "Center"
+    },
+    thirdReel: {
+      stopSymbolIndex: 0,
+      line: "Center"
+    }
+  });
+  const spinRandom = compose(setPositions, symbolsOnWinLines, winLinesToStopOn);
   return (
     <div className="App">
-      <header className="App-header">
-        <div className="container-fluid">
-        <div className="row">
-          <div className="col">
-            
-            <Reel />
-            </div>
-            <div className="col">
-            <Reel />
-            </div>
-            <div className="col">
-            <Reel />
-            </div>
-          </div>
-          
-        </div>
-      </header>
+      <SlotMachine positions={positions} />
+      <Button onClick={() => spinRandom()}>Spin!</Button>
     </div>
   );
 }
-function Reel() {
-  return (
-    <div class="scene">
-      <div class="carousel">
-        <div class="carousel__cell"><img className="slotImages"  src={Img3xBAR}></img></div>
-        <div class="carousel__cell"><img className="slotImages" src={ImgBAR}></img></div>
-        <div class="carousel__cell"><img className="slotImages" src={Img2xBAR}></img></div>
-        <div class="carousel__cell"><img className="slotImages" src={Img7}></img></div>
-        <div class="carousel__cell"><img className="slotImages" src={ImgCherry}></img></div>
-      </div>
-    </div>
-  );
+//  Get int beetwen 0-1  to decide stop positions for 3 reels
+//  0 - stop on a symbol on center line   1 - stop on a symbol on top line
+function winLinesToStopOn() {
+  const beetween0And1 = () => Math.floor(Math.random() * Math.floor(2));
+  const stopLine = () => (beetween0And1() === 0 ? "Center" : "Top");
+  return [stopLine(), stopLine(), stopLine()];
 }
+// Decide which symbol will take stop position on all 3 reels
+function symbolsOnWinLines(stopPosition) {
+  const beetween0And4 =  () => Math.floor(Math.random() * Math.floor(5));
+  return { 
+    firstReel: {
+      stopSymbolIndex: beetween0And4(),
+      line: stopPosition[0]
+    },
+    secondReel: {
+      stopSymbolIndex: beetween0And4(),
+      line: stopPosition[1]
+    },
+    thirdReel: {
+      stopSymbolIndex: beetween0And4(),
+      line: stopPosition[2]
+    }
+  }
+}
+
 export default App;

@@ -1,81 +1,49 @@
 .App {
   text-align: center;
-}
-.slotImages {
- 
-  height:200px;
-  
-}
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
   background-color: #282c34;
   min-height: 100vh;
+}
+.slotImages {
+  height: 200px;
+  width: 234px;
+}
+.slotMachine {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: flex-end;
+  overflow: hidden;
+  
+  height: 289px;
+  width: 820px;
+  
+  padding-bottom: 45px;
 }
-
-.App-link {
-  color: #61dafb;
-}
-
-
 
 .scene {
-  width: 141px;
+  width: 234px;
   height: 200px;
   position: relative;
-  
-  
+ 
 }
 
-.carousel {
+.reel {
   width: 100%;
   height: 100%;
   position: absolute;
   transform-style: preserve-3d;
-  animation-name: x-spin;
- /*animation-duration: 2s;*/
-  
- 
 }
 @keyframes x-spin {
-  0%    { transform: rotateX(0deg); }
- 
-  100%  { transform: rotateX(180deg); }
+  0% {
+    transform: rotateX(0deg);
+  }
+
+  100% {
+    transform: rotateX(-90deg);
+  }
 }
 
-.carousel__cell {
-  overflow: hidden;
+.reel__cell {
   position: absolute;
   width: 234px;
-  height: 200px;
-  left: 10px;
-  top: 10px;
-  border:  0;
-  line-height: 116px;
-  font-size: 80px;
-  font-weight: bold;
-  color: white;
-  text-align: center;
-  transition: transform 1s, opacity 1s;
-  background:  rgb(255, 255, 255, 1);
+  height: 200px; 
+  background: rgb(255, 255, 255, 1);
 }
-.carousel__cell:nth-child(1) { transform: rotateX(  0deg) translateZ(138px); }
-.carousel__cell:nth-child(2) { transform: rotateX( 72deg) translateZ(138px); }
-.carousel__cell:nth-child(3) { transform: rotateX( 144deg) translateZ(138px); }
-.carousel__cell:nth-child(4) { transform: rotateX(216deg) translateZ(138px); }
-.carousel__cell:nth-child(5) { transform: rotateX(288deg) translateZ(138px); }
