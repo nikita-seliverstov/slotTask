@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Button } from "reactstrap";
 import { compose } from "ramda";
-import Toggle  from "react-toggle";
+
 import "./App.css";
 import "./components/SlotMachine";
 import SlotMachine from "./components/SlotMachine";
 import {findSymbolNeighbors} from "./helpers/findIndexNeighborsInArray";
+import ToggleDebud from "./components/ToggleDebug";
 import "react-toggle/style.css"
-
 
 function App() {
   const [stateOfSpining, setStateOfSpining] = useState(false);
@@ -21,19 +21,10 @@ function App() {
   const spinFixed = () => {};
   return (
     <div className="App">
-     <div className="container">
-      <label style={{color:"white"}}>
-      Mode selected: {debugMode ? 'debug' : 'random'}
-      </label>
-      </div>
-      <Toggle  icons={{
-      checked: <span className="toogle-emoji" role="img" aria-label="debug">🔧</span>,
-      unchecked:  <span className="toogle-emoji" role="img" aria-label="dice">🎲</span>
-       }}
-       onChange={() => setDebugMode(!debugMode)} />
-      <div className="container">
+      <ToggleDebud setDebugMode={setDebugMode} debugMode={debugMode} />
+      
       <SlotMachine stateOfSpining={stateOfSpining} positions={positions}  />
-      </div>
+    
       {debugMode === false ? (
         <Button className="btn-lg m-3" onClick={() => spinRandom()} disabled={stateOfSpining} >Spin!🎰</Button>
       ) : (

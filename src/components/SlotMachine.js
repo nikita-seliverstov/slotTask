@@ -9,6 +9,7 @@ bug: with same props: does't revoke animation
 
 function SlotMachine(props) {
   return (
+    <div className="container">
     <div className="slotMachine">
       <div className="row">
         {props.positions !== undefined ? (
@@ -37,6 +38,7 @@ function SlotMachine(props) {
           </>
         )}
       </div>
+    </div>
     </div>
   );
 }
