@@ -1,32 +1,10 @@
-function findSymbolNeighbors(position) {
-    if (position.symbolIndex === 4) {
-      return {
-        ...(position.line === 'Center'
-          ? { topIndex: 0, bottomIndex: 3, centerIndex: position.symbolIndex }
-          : { topIndex: position.symbolIndex, bottomIndex: 3, centerIndex: false })
-      };
-    }
-    if (position.symbolIndex === 0) {
-      return {
-        ...(position.line === 'Center'
-          ? { topIndex: 1, bottomIndex: 4, centerIndex: position.symbolIndex }
-          : { topIndex: position.symbolIndex, bottomIndex: 4, centerIndex: false })
-      };
-    } else {
-      return {
-        ...(position.line === 'Center'
-          ? {
-              topIndex: position.symbolIndex + 1,
-              bottomIndex: position.symbolIndex - 1,
-              centerIndex: position.symbolIndex
-            }
-          : {
-              topIndex: position.symbolIndex,
-              bottomIndex: position.symbolIndex - 1,
-              centerIndex: false
-            })
-      };
-    }
-  }
-
-  export default findSymbolNeighbors
+import {curry} from 'ramda';
+import {cells} from '../config';
+const last = arr => arr[arr.length - 1];
+const getNextElementInArray = curry((array, index ) => index + 1 > array.length ? 0 : index + 1);
+const getPrevElementInArray = curry((array, index  ) => index - 1 < 0 ? last(array) : index - 1 );
+const getNextSymbol = getNextElementInArray(cells);
+const getPrevSymbol = getPrevElementInArray(cells);
+export const findSymbolNeighbors = (position) => position.line === 'Center' ?
+{topIndex: getNextSymbol(position.symbolIndex), bottomIndex: getPrevSymbol(position.symbolIndex), centerIndex: position.symbolIndex }:
+{topIndex: position.symbolIndex, bottomIndex: getPrevSymbol(position.symbolIndex), centerIndex: false };

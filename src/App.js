@@ -5,7 +5,7 @@ import Toggle  from "react-toggle";
 import "./App.css";
 import "./components/SlotMachine";
 import SlotMachine from "./components/SlotMachine";
-import findSymbolNeighbors from "./helpers/findIndexNeighborsInArray";
+import {findSymbolNeighbors} from "./helpers/findIndexNeighborsInArray";
 import "react-toggle/style.css"
 
 
@@ -21,21 +21,16 @@ function App() {
   const spinFixed = () => {};
   return (
     <div className="App">
-     
-      <label>
-      <Toggle  icons={{
-      checked: <span className="toogle-emoji" role="img" aria-label="dice">🎲</span>,
-      unchecked:  <span className="toogle-emoji" role="img" aria-label="debug">🔧</span>
-      
- 
-       }}
-       defaultChecked={() => setDebugMode(false)}
-       onChange={() => setDebugMode(true)} />
-       
-
-     
+     <div className="container">
+      <label style={{color:"white"}}>
+      Mode selected: {debugMode ? 'debug' : 'random'}
       </label>
-     
+      </div>
+      <Toggle  icons={{
+      checked: <span className="toogle-emoji" role="img" aria-label="debug">🔧</span>,
+      unchecked:  <span className="toogle-emoji" role="img" aria-label="dice">🎲</span>
+       }}
+       onChange={() => setDebugMode(!debugMode)} />
       <div className="container">
       <SlotMachine stateOfSpining={stateOfSpining} positions={positions}  />
       </div>
