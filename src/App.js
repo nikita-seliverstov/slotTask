@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import { Button } from "reactstrap";
-import { compose } from "ramda";
-
-import "./App.css";
-import "./components/SlotMachine";
-import SlotMachine from "./components/SlotMachine";
-import {findSymbolNeighbors} from "./helpers/findIndexNeighborsInArray";
-import ToggleDebud from "./components/ToggleDebug";
-import "react-toggle/style.css"
+import React, { useState } from 'react';
+import { Button, Input } from 'reactstrap';
+import { compose } from 'ramda';
+import './App.css';
+import SlotMachine from './components/SlotMachine';
+import { findSymbolNeighbors } from './helpers/findIndexNeighborsInArray';
+import ToggleDebud from './components/ToggleDebug';
+import Balance from './components/Balance';
+import PayTable from './components/PayTable';
+import 'react-toggle/style.css';
 
 function App() {
   const [stateOfSpining, setStateOfSpining] = useState(false);
@@ -15,20 +15,38 @@ function App() {
     setStateOfSpining(true);
     setTimeout(() => setStateOfSpining(false), 3000);
   };
+  const payForSpin = () => setBalance(balance - 1);
+  const setBalanceLimitedTo5000 = number =>
+    number <= 5000 && setBalance(number);
   const [positions, setPositions] = useState();
   const [debugMode, setDebugMode] = useState(false);
-  const spinRandom = compose(activateSpin,setPositions,symbolPositions,symbolsOnStopLines,winLinesToStopOn);
+  const [balance, setBalance] = useState(0);
+  const spinRandom = compose(activateSpin, setPositions, symbolPositions, symbolsOnStopLines, winLinesToStopOn, payForSpin);
   const spinFixed = () => {};
   return (
-    <div className="App">
+    <div className='App'>
+      <Balance  setBalance={setBalanceLimitedTo5000} balance={balance} />
+      <PayTable></PayTable>
       <ToggleDebud setDebugMode={setDebugMode} debugMode={debugMode} />
-      
-      <SlotMachine stateOfSpining={stateOfSpining} positions={positions}  />
-    
+      <SlotMachine stateOfSpining={stateOfSpining} positions={positions} />
       {debugMode === false ? (
-        <Button className="btn-lg m-3" onClick={() => spinRandom()} disabled={stateOfSpining} >Spin!🎰</Button>
+        <Button
+          className='btn-lg m-3'
+          onClick={() =>
+            balance !== 0 ? spinRandom() : alert('not enough balance')
+          }
+          disabled={stateOfSpining}>
+          Spin!🎰
+        </Button>
       ) : (
-        <Button className="btn-lg m-3" onClick={() => spinFixed()} disabled={stateOfSpining} >Spin!🎰</Button>
+        <Button
+          className='btn-lg m-3'
+          onClick={() =>
+            balance !== 0 ? spinFixed() : alert('not enough balance')
+          }
+          disabled={stateOfSpining}>
+          Spin!🎰
+        </Button>
       )}
     </div>
   );
@@ -37,7 +55,7 @@ function App() {
 //  0 - stop on a symbol on center line   1 - stop on a symbol on top line
 function winLinesToStopOn() {
   const beetween0And1 = () => Math.floor(Math.random() * Math.floor(2));
-  const stopLine = () => (beetween0And1() === 0 ? "Center" : "Top");
+  const stopLine = () => (beetween0And1() === 0 ? 'Center' : 'Top');
   return [stopLine(), stopLine(), stopLine()];
 }
 // Decide which symbol will take stop position on all 3 reels
