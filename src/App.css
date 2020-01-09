@@ -11,11 +11,19 @@
   display: flex;
   align-items: flex-end;
   overflow: hidden;
-  
+  margin: 0 auto;
   height: 289px;
-  width: 820px;
+  width: 761px;
   
   padding-bottom: 45px;
+}
+.toogle-emoji {
+  align-items: center;
+    display: flex;
+    height: 10px;
+    justify-content: center;
+    position: relative;
+    width: 10px;
 }
 
 .scene {

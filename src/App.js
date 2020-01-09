@@ -1,32 +1,49 @@
-import React, { useState } from 'react';
-import { Button } from 'reactstrap';
-import { compose } from 'ramda';
-import './App.css';
-import './components/SlotMachine';
-import SlotMachine from './components/SlotMachine';
+import React, { useState } from "react";
+import { Button } from "reactstrap";
+import { compose } from "ramda";
+import Toggle  from "react-toggle";
+import "./App.css";
+import "./components/SlotMachine";
+import SlotMachine from "./components/SlotMachine";
+import findSymbolNeighbors from "./helpers/findIndexNeighborsInArray";
+import "react-toggle/style.css"
+
+
 function App() {
-  const [positions, setPositions] = useState({
-    firstReel: {
-     topIndex: 1,
-     centerIndex: 0,
-     bottomIndex: 4
-    },
-    secondReel: {
-      topIndex: 1,
-      centerIndex: 0,
-      bottomIndex: 4
-     },
-     thirdReel: {
-      topIndex: 1,
-      centerIndex: 0,
-      bottomIndex: 4
-     },
-  });
-  const spinRandom = compose(setPositions, symbolPositions,symbolsOnStopLines, winLinesToStopOn);
+  const [stateOfSpining, setStateOfSpining] = useState(false);
+  const activateSpin = () => {
+    setStateOfSpining(true);
+    setTimeout(() => setStateOfSpining(false), 3000);
+  };
+  const [positions, setPositions] = useState();
+  const [debugMode, setDebugMode] = useState(false);
+  const spinRandom = compose(activateSpin,setPositions,symbolPositions,symbolsOnStopLines,winLinesToStopOn);
+  const spinFixed = () => {};
   return (
-    <div className='App'>
-      <SlotMachine positions={positions} />
-      <Button onClick={() => spinRandom()}>Spin!</Button>
+    <div className="App">
+     
+      <label>
+      <Toggle  icons={{
+      checked: <span className="toogle-emoji" role="img" aria-label="dice">🎲</span>,
+      unchecked:  <span className="toogle-emoji" role="img" aria-label="debug">🔧</span>
+      
+ 
+       }}
+       defaultChecked={() => setDebugMode(false)}
+       onChange={() => setDebugMode(true)} />
+       
+
+     
+      </label>
+     
+      <div className="container">
+      <SlotMachine stateOfSpining={stateOfSpining} positions={positions}  />
+      </div>
+      {debugMode === false ? (
+        <Button className="btn-lg m-3" onClick={() => spinRandom()} disabled={stateOfSpining} >Spin!🎰</Button>
+      ) : (
+        <Button className="btn-lg m-3" onClick={() => spinFixed()} disabled={stateOfSpining} >Spin!🎰</Button>
+      )}
     </div>
   );
 }
@@ -34,7 +51,7 @@ function App() {
 //  0 - stop on a symbol on center line   1 - stop on a symbol on top line
 function winLinesToStopOn() {
   const beetween0And1 = () => Math.floor(Math.random() * Math.floor(2));
-  const stopLine = () => (beetween0And1() === 0 ? 'Center' : 'Top');
+  const stopLine = () => (beetween0And1() === 0 ? "Center" : "Top");
   return [stopLine(), stopLine(), stopLine()];
 }
 // Decide which symbol will take stop position on all 3 reels
@@ -55,9 +72,11 @@ function symbolsOnStopLines(stopPosition) {
     }
   };
 }
-
+// Find stop symbol neighbors
+//return object with visible symbols on reels
 function symbolPositions(stopSymbols) {
-    return {firstReel: {
+  return {
+    firstReel: {
       ...findSymbolNeighbors(stopSymbols.firstReelStopPosition)
     },
     secondReel: {
@@ -66,41 +85,7 @@ function symbolPositions(stopSymbols) {
     thirdReel: {
       ...findSymbolNeighbors(stopSymbols.thirdReelStopPosition)
     }
-  }
-}
-
-function findSymbolNeighbors(position) {
-  if (position.symbolIndex === 4) {
-    console.log(position.symbolIndex)
-    return {
-      ...(position.line === 'Center'
-        ? { topIndex: 0, bottomIndex: 3, centerIndex: position.symbolIndex }
-        : { topIndex: position.symbolIndex, bottomIndex: 3, centerIndex: false })
-    };
-  }
-  if (position.symbolIndex === 0) {
-    console.log(position.symbolIndex)
-    return {
-      ...(position.line === 'Center'
-        ? { topIndex: 1, bottomIndex: 4, centerIndex: position.symbolIndex }
-        : { topIndex: position.symbolIndex, bottomIndex: 4, centerIndex: false })
-    };
-  } else {
-    console.log(position.symbolIndex)
-    return {
-      ...(position.line === 'Center'
-        ? {
-            topIndex: position.symbolIndex + 1,
-            bottomIndex: position.symbolIndex - 1,
-            centerIndex: position.symbolIndex
-          }
-        : {
-            topIndex: position.symbolIndex,
-            bottomIndex: position.symbolIndex - 1,
-            centerIndex: false
-          })
-    };
-  }
+  };
 }
 
 export default App;

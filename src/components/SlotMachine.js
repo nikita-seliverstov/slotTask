@@ -1,72 +1,95 @@
 import React from "react";
-import styled, { css, keyframes } from "styled-components";
-import Img3xBAR from "../images/3xBAR.png";
-import Img2xBAR from "../images/2xBAR.png";
-import ImgBAR from "../images/BAR.png";
-import Img7 from "../images/7.png";
-import ImgCherry from "../images/Cherry.png";
+import { keyframes } from "styled-components";
+import { cells } from "../config";
+import { ReelElement, CellElement } from "../styles/styled-components";
+
+/*To do 
+bug: with same props: does't revoke animation
+*/
+
 function SlotMachine(props) {
   return (
     <div className="slotMachine">
       <div className="row">
-        <Reel position={props.positions.firstReel} />
-        <Reel position={props.positions.secondReel} />
-        <Reel position={props.positions.thirdReel} />
+        {props.positions !== undefined ? (
+          <>
+            <Reel
+              stateOfSpining={props.stateOfSpining}
+              position={props.positions.firstReel}
+              animationDelay = {0}
+            />
+            <Reel
+              stateOfSpining={props.stateOfSpining}
+              position={props.positions.secondReel}
+              animationDelay = {0.5}
+            />
+            <Reel
+              stateOfSpining={props.stateOfSpining}
+              position={props.positions.thirdReel}
+              animationDelay = {1}
+            />
+          </>
+        ) : (
+          <>
+            <Reel />
+            <Reel />
+            <Reel />
+          </>
+        )}
       </div>
     </div>
   );
 }
 function Reel(props) {
-  const cells = [
-    { name: "3xBAR", img: Img3xBAR },
-    { name: "BAR", img: ImgBAR },
-    { name: "2xBAR", img: Img2xBAR },
-    { name: "7", img: Img7 },
-    { name: "Cherry", img: ImgCherry }
-  ];
-  const Reel = styled.div`
-    ${props =>
-      props.position &&
-      css`
-        animation: ${createAnimation(props.position)};
-        animation-duration: 2s;
-        transform: ${rotateReel(props.position)};
-      `}
-  `;
-  const Cell = styled.div`
-    transform: rotateX(${props => props.index * 72}deg) translateZ(138px);
-  `;
-
   return (
     <div className="col-4">
       <div className="scene">
-        <Reel  position={props.position} className={"reel"}  >
+        <ReelElement
+          rotation={rotateReel(props.position)}
+          animation={
+            props.stateOfSpining === true
+              ? createAnimation(props.position)
+              : false
+          }
+          animationDelay = {props.animationDelay}
+          className={"reel"}
+        >
           {cells.map((cell, index) => (
-            <Cell index={index} className={"reel__cell"}>
+            <CellElement index={index} className={"reel__cell"}>
               <img className="slotImages" alt={index} src={cell.img}></img>
-            </Cell>
+            </CellElement>
           ))}
-        </Reel>
+        </ReelElement>
       </div>
     </div>
   );
 }
-function rotateReel(position){
-  return  `rotateX(${position.centerIndex !== false ? position.centerIndex * -72 : (position.topIndex * -72) + 36 }deg)`;
+function rotateReel(position) {
+  if (position !== undefined) {
+    return `rotateX(${
+      position.centerIndex !== false
+        ? position.centerIndex * -72
+        : position.topIndex * -72 + 36
+    }deg)`;
+  }
 }
 
-
-
 function createAnimation(position) {
- return (keyframes`
+  if (position !== undefined) {
+    return keyframes`
       0% {
         transform: rotateX(0deg);
       }
     
       100% {
-        transform: rotateX(${position.centerIndex !== false ? (position.centerIndex * -72) - 3600  : ((position.topIndex * -72)  +36) - 360 }deg);
+        transform: rotateX(${
+          position.centerIndex !== false
+            ? position.centerIndex * -72 - 3600
+            : position.topIndex * -72 + 36 - 3600
+        }deg);
       }
-    `)
+    `;
+  }
 }
 
 export default SlotMachine;
