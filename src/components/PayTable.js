@@ -1,45 +1,33 @@
-import React, { useState } from 'react';
-import { Table } from 'reactstrap';
-import { cells } from '../config';
-import { prop } from 'ramda';
+import React from "react";
+import { Table } from "reactstrap";
+import { symbols, combinations } from "../config";
+// I added ramda map because it has implementation for objects
+import { prop, contains, map } from "ramda";
 function PayTable() {
-    const specialCombinationPay = {
-        cherry: {
-         top: 2000,
-         center: 1000,
-         bottom: 4000
-        },
-        cherryAnd7: 75,
-        anyBar: 5,
-
-    } 
-    return(
-    <div className="col-6">
-    <Table>
+  return (
+    <div className="col-3">
+      <Table>
         <tbody>
-        <tr>
-            <th>Combination of 3</th>
-               {cells.filter(cell => prop('combinationPay', cell)).map(cell =>
-                     <td>
-                         <img src={cell.img} className="tableImage"></img>
-                         <img src={cell.img} className="tableImage"></img>
-                         <img src={cell.img} className="tableImage"></img>
-                     </td>
-               )}
-        </tr>
-        <tr>
+          <tr>
+            <th>Combination of 3 same symbols</th>
+            {symbols
+              .filter(symbol => symbol.name in combinations.sameSymbolsAnyLine).map(symbol => (
+                <td>
+                  <img src={symbol.img} className="tableImage"></img>
+                 
+                </td>
+              ))}
+          </tr>
+          <tr>
             <th>Award</th>
-               {cells.filter(cell => prop('combinationPay', cell)).map(cell =>
-                     <td>
-                        {cell.combinationPay}
-                     </td>
-               )}
-        </tr>
+            {symbols.filter(symbol => symbol.name in combinations.sameSymbolsAnyLine).map(symbol => (
+                <td>{prop(symbol.name, combinations.sameSymbolsAnyLine)}</td>
+              ))}
+          </tr>
         </tbody>
-      
-    </Table>
+      </Table>
     </div>
-    )
+  );
 }
 
 export default PayTable;

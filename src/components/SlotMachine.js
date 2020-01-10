@@ -1,6 +1,6 @@
 import React from "react";
 import { keyframes } from "styled-components";
-import { cells } from "../config";
+import { symbols } from "../config";
 import { ReelElement, CellElement } from "../styles/styled-components";
 
 /*To do 
@@ -56,9 +56,9 @@ function Reel(props) {
           animationDelay = {props.animationDelay}
           className={"reel"}
         >
-          {cells.map((cell, index) => (
+          {symbols.map((symbol, index) => (
             <CellElement index={index} className={"reel__cell"}>
-              <img className="slotImages" alt={index} src={cell.img}></img>
+              <img className="slotImages" alt={index} src={symbol.img}></img>
             </CellElement>
           ))}
         </ReelElement>

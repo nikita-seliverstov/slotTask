@@ -25,9 +25,9 @@ function App() {
   const spinFixed = () => {};
   return (
     <div className='App'>
+      <ToggleDebud setDebugMode={setDebugMode} debugMode={debugMode} />
       <Balance  setBalance={setBalanceLimitedTo5000} balance={balance} />
       <PayTable></PayTable>
-      <ToggleDebud setDebugMode={setDebugMode} debugMode={debugMode} />
       <SlotMachine stateOfSpining={stateOfSpining} positions={positions} />
       {debugMode === false ? (
         <Button
