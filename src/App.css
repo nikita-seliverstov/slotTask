@@ -6,6 +6,7 @@
 }
 .table {
   color: white !important;
+  position: absolute;
 }
 .tableImage{
   width: 50px;
@@ -14,6 +15,7 @@
   height: 200px;
   width: 234px;
 }
+
 .slotMachine {
   display: flex;
   align-items: flex-end;
@@ -56,4 +58,15 @@
 .balance {
   text-align: left;
   color: white;
+}
+
+@keyframes invalid {
+  from { background-color: red; }
+  to { background-color: inherit; }
+}
+.invalid {
+  -webkit-animation: invalid 2s infinite; /* Safari 4+ */
+  -moz-animation:    invalid 2s infinite; /* Fx 5+ */
+  -o-animation:      invalid 2s infinite; /* Opera 12+ */
+  animation:         invalid 0.4s infinite; /* IE 10+ */
 }

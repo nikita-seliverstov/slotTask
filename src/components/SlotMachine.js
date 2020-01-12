@@ -69,9 +69,9 @@ function Reel(props) {
 function rotateReel(position) {
   if (position !== undefined) {
     return `rotateX(${
-      position.centerIndex !== false
-        ? position.centerIndex * -72
-        : position.topIndex * -72 + 36
+      position.center !== false
+        ? position.center * -72
+        : position.top * -72 + 36
     }deg)`;
   }
 }
@@ -85,9 +85,9 @@ function createAnimation(position) {
     
       100% {
         transform: rotateX(${
-          position.centerIndex !== false
-            ? position.centerIndex * -72 - 3600
-            : position.topIndex * -72 + 36 - 3600
+          position.center !== false
+            ? position.center * -72 - 3600
+            : position.top * -72 + 36 - 3600
         }deg);
       }
     `;
