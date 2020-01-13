@@ -12,18 +12,18 @@ const getPrevSymbol = getPrevElementInArray(symbols);
 export const findSymbolNeighbors = position =>
   position.line === 'Center'
     ? {
-        top: getNextSymbol(position.symbolIndex),
-        bottom: getPrevSymbol(position.symbolIndex),
+        top: getNextSymbol(Number(position.symbolIndex)),
+        bottom: getPrevSymbol(Number(position.symbolIndex)),
         center: Number(position.symbolIndex)
       }
     : position.line === 'top'
     ? {
         top: Number(position.symbolIndex),
-        bottom: getPrevSymbol(position.symbolIndex),
+        bottom: getPrevSymbol(Number(position.symbolIndex)),
         center: false
       }
     : {
-        top: getNextSymbol(position.symbolIndex),
+        top: getNextSymbol(Number(position.symbolIndex)),
         bottom: Number(position.symbolIndex),
         center: false
       };
