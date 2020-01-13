@@ -2,10 +2,10 @@ import { curry } from 'ramda';
 import { symbols } from '../config';
 const lastIndex = arr => arr.length - 1;
 const getNextElementInArray = curry((array, index) =>
-  index + 1 > array.length ? 0 : index + 1
+  index + 1 > array.length ? 0 : Number(index) + 1
 );
 const getPrevElementInArray = curry((array, index) =>
-  index - 1 < 0 ? lastIndex(array) : index - 1
+  index - 1 < 0 ? lastIndex(array) : Number(index) - 1
 );
 const getNextSymbol = getNextElementInArray(symbols);
 const getPrevSymbol = getPrevElementInArray(symbols);
@@ -14,7 +14,7 @@ export const findSymbolNeighbors = position =>
     ? {
         top: getNextSymbol(position.symbolIndex),
         bottom: getPrevSymbol(position.symbolIndex),
-        center: position.symbolIndex
+        center: Number(position.symbolIndex)
       }
     : position.line === 'top'
     ? {
@@ -24,6 +24,6 @@ export const findSymbolNeighbors = position =>
       }
     : {
         top: getNextSymbol(position.symbolIndex),
-        bottom: position.symbolIndex,
+        bottom: Number(position.symbolIndex),
         center: false
       };

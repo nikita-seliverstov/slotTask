@@ -3,30 +3,34 @@ import { keyframes } from "styled-components";
 import { symbols } from "../config";
 import { ReelElement, CellElement } from "../styles/styled-components";
 
-/*To do 
-bug: with same props: does't revoke animation
-*/
-
-function SlotMachine(props) {
+function SlotMachine({stateOfSpining, positions, symbolCombination}) {
+  const redLineIfWin = (line) => stateOfSpining === false && symbolCombination !== undefined  ? symbolCombination[line] !== false && " lineBlink":null
   return (
     <div className="container">
     <div className="slotMachine">
+    
+      <div className={"redLine-top" + redLineIfWin('top')
+    }> </div>
+      <div className={"redLine-center" + redLineIfWin('center')}> </div>
+      <div className={"redLine-bottom"+ redLineIfWin('bottom')}  > </div>
+      
       <div className="row">
-        {props.positions !== undefined ? (
+       
+        {positions !== undefined ? (
           <>
             <Reel
-              stateOfSpining={props.stateOfSpining}
-              position={props.positions.firstReel}
+              stateOfSpining={stateOfSpining}
+              position={positions.firstReel}
               animationDelay = {0}
             />
             <Reel
-              stateOfSpining={props.stateOfSpining}
-              position={props.positions.secondReel}
+              stateOfSpining={stateOfSpining}
+              position={positions.secondReel}
               animationDelay = {0.5}
             />
             <Reel
-              stateOfSpining={props.stateOfSpining}
-              position={props.positions.thirdReel}
+              stateOfSpining={stateOfSpining}
+              position={positions.thirdReel}
               animationDelay = {1}
             />
           </>
@@ -42,18 +46,18 @@ function SlotMachine(props) {
     </div>
   );
 }
-function Reel(props) {
+function Reel({position, animationDelay, stateOfSpining}) {
   return (
     <div className="col-4">
       <div className="scene">
         <ReelElement
-          rotation={rotateReel(props.position)}
+          rotation={rotateReel(position)}
           animation={
-            props.stateOfSpining === true
-              ? createAnimation(props.position)
+            stateOfSpining === true
+              ? createAnimation(position)
               : false
           }
-          animationDelay = {props.animationDelay}
+          animationDelay = {animationDelay}
           className={"reel"}
         >
           {symbols.map((symbol, index) => (

@@ -23,9 +23,14 @@
   margin: 0 auto;
   height: 289px;
   width: 761px;
-  
+  position: relative;
   padding-bottom: 45px;
 }
+
+
+
+
+
 .toogle-emoji {
   align-items: center;
     display: flex;
@@ -72,4 +77,42 @@
   -o-animation:      awardBlink 0.4s ; /* Opera 12+ */
   animation:         awardBlink 0.4s ; /* IE 10+ */
   animation-iteration-count: 4;
+}
+
+@keyframes lineBlink {
+  from { background-color: red; }
+  to { background-color: inherit; }
+}
+.lineBlink {
+  -webkit-animation: lineBlink 0.4s ; /* Safari 4+ */
+  -moz-animation:    lineBlink 0.4s ; /* Fx 5+ */
+  -o-animation:      lineBlink 0.4s ; /* Opera 12+ */
+  animation:         lineBlink 0.4s ; /* IE 10+ */
+  animation-iteration-count: 4;
+}
+
+
+.redLine-top {
+  height: 27px;
+    width: 800px;
+    position: absolute;
+    z-index: 1010;
+    top: 6%;
+    
+}
+.redLine-center {
+  height: 27px;
+    width: 800px;
+    position: absolute;
+    z-index: 1010;
+    top: 47%;
+    
+}
+.redLine-bottom {
+  height: 27px;
+    width: 800px;
+    position: absolute;
+    z-index: 1010;
+    top: 90%;
+    
 }

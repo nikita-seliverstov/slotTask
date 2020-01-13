@@ -1,75 +1,83 @@
-import React, { useState } from 'react';
-import { Button } from 'reactstrap';
-import { compose } from 'ramda';
-import './App.css';
-import SlotMachine from './components/SlotMachine';
-import { findSymbolNeighbors } from './helpers/findIndexNeighborsInArray';
-import ToggleDebud from './components/ToggleDebug';
-import Balance from './components/Balance';
-import PayTable from './components/PayTable';
-import Debug from './components/Debug';
-import 'react-toggle/style.css';
-import { prop, filter, contains, curry, isEmpty } from 'ramda';
-import { symbols, combinations } from './config';
+import React, { useState } from "react";
+import { Button } from "reactstrap";
+import { compose } from "ramda";
+import "react-toggle/style.css";
+import { prop, filter, contains, curry, isEmpty, keys } from "ramda";
+import "./App.css";
+import ToggleDebud from "./components/ToggleDebug";
+import Balance from "./components/Balance";
+import SlotMachine from "./components/SlotMachine";
+import PayTable from "./components/PayTable";
+import Debug from "./components/Debug";
+import { findSymbolNeighbors } from "./helpers/findIndexNeighborsInArray";
+import { symbols, combinations } from "./config";
 
 function App() {
   const [stateOfSpining, setStateOfSpining] = useState(false);
-  const activateSpin = () => {
-    setStateOfSpining(true);
-    setTimeout(() => setStateOfSpining(false), 3000);
-  };
-  const payForSpin = () => setBalance(balance - 1);
-  const setBalanceLimitedTo5000 = number =>
-    number <= 5000 && setBalance(number);
   const [positions, setPositions] = useState();
   const [fixedPositions, setFixedPositions] = useState();
   const [symbolCombination, setCombinations] = useState();
   const [debugMode, setDebugMode] = useState(false);
   const [balance, setBalance] = useState(0);
-  const spinRandom = compose(
-    activateSpin,
-    setCombinations,
-    winCombinations,
-    symbolPositions,
-    symbolsOnStopLines,
-    winLinesToStopOn,
-    payForSpin
-  );
-  const spinFixed = compose(
-    activateSpin,
-    setCombinations,
-    winCombinations,
-    symbolPositions
-  );
+ 
+  const payForSpin = () => setBalance(balance - 1);
+  const setBalanceLimitedTo5000 = number =>
+    number <= 5000 && number  >= 0  && setBalance(number);
+    const activateSpin = (award) => {
+      setStateOfSpining(true);
+      setTimeout(() => {setStateOfSpining(false);  giveAward(award)}, 3000);
+      
+    };
+    function giveAward(award){
+      const lines = keys(award);
+      
+      
+    }
+    const spinRandom = compose(activateSpin, winCombinations, symbolPositions, symbolsOnStopLines,winLinesToStopOn,payForSpin);
+    const spinFixed = compose(activateSpin, winCombinations, symbolPositions);
+
   return (
-    <div className='App'>
+    <div className="App">
       <ToggleDebud setDebugMode={setDebugMode} debugMode={debugMode} />
-      <Balance setBalance={setBalanceLimitedTo5000} balance={balance} />
+      <Balance symbolCombination={symbolCombination} setBalance={setBalanceLimitedTo5000} balance={balance} />
       <PayTable
         stateOfSpining={stateOfSpining}
         symbolCombination={symbolCombination}
         setCombinations={setCombinations}
-        positions={positions}></PayTable>
-      <SlotMachine stateOfSpining={stateOfSpining} positions={positions} />
+        positions={positions}
+      ></PayTable>
+      <SlotMachine
+        stateOfSpining={stateOfSpining}
+        positions={positions}
+        symbolCombination={symbolCombination}
+      />
       {debugMode === false ? (
         <Button
-          className='btn-lg m-3'
+          className="btn-lg m-3"
           onClick={() =>
-            balance !== 0 ? spinRandom() : alert('not enough balance')
+            balance !== 0 ? spinRandom() : alert("not enough balance")
           }
-          disabled={stateOfSpining}>
-          Spin!🎰
+          disabled={stateOfSpining}
+        >
+          Spin!
+          <span role="img" aria-label="slot-machine">
+            🎰
+          </span>
         </Button>
       ) : (
         <Button
-          className='btn-lg m-3'
+          className="btn-lg m-3"
           onClick={() =>
             balance !== 0
-              ? spinFixed(fixedPositions)
-              : alert('not enough balance')
+              ?  spinFixed(fixedPositions)
+              : alert("not enough balance")
           }
-          disabled={stateOfSpining}>
-          Spin!🎰
+          disabled={stateOfSpining}
+        >
+          Spin!
+          <span role="img" aria-label="slot-machine">
+            🎰
+          </span>
         </Button>
       )}
       {debugMode === true && <Debug setFixedPositions={setFixedPositions} />}
@@ -83,10 +91,10 @@ function App() {
       let randomValue = beetween0And2();
       console.log(randomValue);
       return randomValue === 0
-        ? 'Top'
+        ? "Top"
         : randomValue === 1
-        ? 'Center'
-        : 'Bottom';
+        ? "Center"
+        : "Bottom";
     };
     return [stopLine(), stopLine(), stopLine()];
   }
@@ -111,7 +119,7 @@ function App() {
   // Find stop symbol neighbors
   //return object with visible symbols on reels
   function symbolPositions(stopSymbols) {
-    const randmizedPositions = {
+    const Positions = {
       firstReel: {
         ...findSymbolNeighbors(stopSymbols.firstReelStopPosition)
       },
@@ -122,38 +130,43 @@ function App() {
         ...findSymbolNeighbors(stopSymbols.thirdReelStopPosition)
       }
     };
-    setPositions(randmizedPositions);
-    return randmizedPositions;
+    setPositions(Positions);
+    return Positions;
   }
+  // Returns obj win combinations on lines if exist or return false
   function winCombinations(positions) {
     const position = [
       positions.firstReel,
       positions.secondReel,
       positions.thirdReel
     ];
-    return {
-      top: checkforCombinations(position, 'top'),
-      center: checkforCombinations(position, 'center'),
-      bottom: checkforCombinations(position, 'bottom')
-    };
+    const combinations = {
+      top: checkforCombinations(position, "top"),
+      center: checkforCombinations(position, "center"),
+      bottom: checkforCombinations(position, "bottom")
+    }
+    setCombinations(combinations)
+    return combinations;
   }
+  // checks line for combinations return obj with award if exist
   function checkforCombinations(positions, line) {
+    // get array for line and replace values with compared symbol name for prop search
     const arrayForCurrentLine = positions.map(x =>
-      prop('name', symbols[prop(line, x)])
+      prop("name", symbols[prop(line, x)])
     );
-
-    const allEqual = arr => arr.every(v => v === arr[0]);
+    const allEqual = arr => arr.every(v => v === arr[0] && v !== undefined);
     const everyArrElemContainsObjVal = curry((arr, objVal) =>
       arr.every(elem => contains(elem, objVal.contains))
     );
     const everyPositionContainsObjVal = everyArrElemContainsObjVal(
       arrayForCurrentLine
     );
+    // Returns combination of not same symbols if exist or returns empty obj
     const hasNotSameCombination = filter(
       everyPositionContainsObjVal,
       combinations.notSameSymbolsAnyLine
     );
-    console.log(hasNotSameCombination);
+    // Check for combination of 3 same sybols
     if (allEqual(arrayForCurrentLine)) {
       return prop(arrayForCurrentLine[0], combinations.sameSymbolsAnyLine)
         ? {
@@ -171,11 +184,14 @@ function App() {
             )
           };
     } else if (!isEmpty(hasNotSameCombination)) {
-      return hasNotSameCombination;
+      return hasNotSameCombination[keys(hasNotSameCombination)[0]];
     } else {
-      return false;
+      return {award: 0};
     }
   }
+ 
 }
+
+
 
 export default App;

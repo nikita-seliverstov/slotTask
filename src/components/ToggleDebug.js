@@ -1,11 +1,11 @@
 import React from "react";
 import Toggle from "react-toggle";
-function ToogleDebug(props) {
+function ToogleDebug({debugMode, setDebugMode}) {
   return (
     <>
       <div className="container">
         <label style={{ color: "white" }}>
-          Mode selected: {props.debugMode ? "debug" : "random"}
+          Mode selected: {debugMode ? "debug" : "random"}
         </label>
       </div>
       <Toggle
@@ -21,7 +21,7 @@ function ToogleDebug(props) {
             </span>
           )
         }}
-        onChange={() => props.setDebugMode(!props.debugMode)}
+        onChange={() => setDebugMode(!debugMode)}
       />
     </>
   );

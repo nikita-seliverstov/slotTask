@@ -1,7 +1,7 @@
 import React from 'react';
 import { Input } from 'reactstrap';
 
-function Balance({setBalance, balance}) {
+function Balance({setBalance, balance, symbolCombination}) {
   return (
     <div className='container-fluid balance'>
       <div className='col'>
@@ -17,6 +17,7 @@ function Balance({setBalance, balance}) {
       </div>
     </div>
   );
+  
 }
 
 export default Balance;
