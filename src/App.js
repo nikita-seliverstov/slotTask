@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button,    } from 'reactstrap';
+import { Button } from 'reactstrap';
 import { compose } from 'ramda';
 import './App.css';
 import SlotMachine from './components/SlotMachine';
@@ -35,10 +35,12 @@ function App() {
     winLinesToStopOn,
     payForSpin
   );
-  const spinFixed = compose(activateSpin,
+  const spinFixed = compose(
+    activateSpin,
     setCombinations,
     winCombinations,
-    symbolPositions);
+    symbolPositions
+  );
   return (
     <div className='App'>
       <ToggleDebud setDebugMode={setDebugMode} debugMode={debugMode} />
@@ -62,7 +64,9 @@ function App() {
         <Button
           className='btn-lg m-3'
           onClick={() =>
-            balance !== 0 ? spinFixed(fixedPositions) : alert('not enough balance')
+            balance !== 0
+              ? spinFixed(fixedPositions)
+              : alert('not enough balance')
           }
           disabled={stateOfSpining}>
           Spin!🎰
@@ -71,11 +75,19 @@ function App() {
       {debugMode === true && <Debug setFixedPositions={setFixedPositions} />}
     </div>
   );
-  //  Get int beetwen 0-1  to decide stop positions for 3 reels
-  //  0 - stop on a symbol on center line   1 - stop on a symbol on top line
+  //  Get int beetwen 0-2  to decide stop positions for 3 reels
+  //  0 - stop on a symbol on top line   1 - stop on a symbol on center line 2-  bottom line
   function winLinesToStopOn() {
-    const beetween0And1 = () => Math.floor(Math.random() * Math.floor(2));
-    const stopLine = () => (beetween0And1() === 0 ? 'Center' : 'Top');
+    const beetween0And2 = () => Math.floor(Math.random() * Math.floor(3));
+    const stopLine = () => {
+      let randomValue = beetween0And2();
+      console.log(randomValue);
+      return randomValue === 0
+        ? 'Top'
+        : randomValue === 1
+        ? 'Center'
+        : 'Bottom';
+    };
     return [stopLine(), stopLine(), stopLine()];
   }
   // Decide which symbol will take stop position on all 3 reels
@@ -126,12 +138,13 @@ function App() {
     };
   }
   function checkforCombinations(positions, line) {
-    const arrayForCurrentLine = positions.map(x => prop('name', symbols[prop(line, x)]));
+    const arrayForCurrentLine = positions.map(x =>
+      prop('name', symbols[prop(line, x)])
+    );
 
     const allEqual = arr => arr.every(v => v === arr[0]);
     const everyArrElemContainsObjVal = curry((arr, objVal) =>
-    arr.every(elem => contains(elem, objVal.contains))
-      
+      arr.every(elem => contains(elem, objVal.contains))
     );
     const everyPositionContainsObjVal = everyArrElemContainsObjVal(
       arrayForCurrentLine
@@ -149,10 +162,13 @@ function App() {
           }
         : {
             name: arrayForCurrentLine[0],
-            award: prop(line, prop(
-              arrayForCurrentLine[0],
-              combinations.sameSymbolsLineDependent
-            ) )
+            award: prop(
+              line,
+              prop(
+                arrayForCurrentLine[0],
+                combinations.sameSymbolsLineDependent
+              )
+            )
           };
     } else if (!isEmpty(hasNotSameCombination)) {
       return hasNotSameCombination;

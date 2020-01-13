@@ -12,29 +12,37 @@ function PayTable({ symbolCombination, stateOfSpining }) {
   const winingCombinationArr = values(symbolCombination);
   const symbolsInCombinationArr = combination =>
     symbols.filter(symbol => symbol.name in combination);
-  const sameSymbolsAnyLine = symbolsInCombinationArr(combinations.sameSymbolsAnyLine)
-  const sameSymbolsLineDependent = symbolsInCombinationArr(combinations.sameSymbolsLineDependent) 
+  const sameSymbolsAnyLine = symbolsInCombinationArr(
+    combinations.sameSymbolsAnyLine
+  );
+  const sameSymbolsLineDependent = symbolsInCombinationArr(
+    combinations.sameSymbolsLineDependent
+  );
   const checkIfAwardIsEqual = award =>
     winingCombinationArr.some(combination => combination.award == award);
-  
-  
+
   return (
     <div className='col-2 m-3'>
       <Table>
         <tbody>
           <tr>
             <th>Combination of 3 same symbols</th>
-             <TableImages symbols={sameSymbolsAnyLine} />
+            <TableImages symbols={sameSymbolsAnyLine} />
           </tr>
           <tr>
             <th>Award</th>
             {sameSymbolsAnyLine.map(symbol => (
-                <td className={!stateOfSpining ?
-                checkIfAwardIsEqual(prop(symbol.name, combinations.sameSymbolsAnyLine)) 
-                && "invalid" : false
-                }
-                >{prop(symbol.name, combinations.sameSymbolsAnyLine)}</td>
-              ))}
+              <td
+                className={
+                  !stateOfSpining
+                    ? checkIfAwardIsEqual(
+                        prop(symbol.name, combinations.sameSymbolsAnyLine)
+                      ) && 'awardBlink'
+                    : false
+                }>
+                {prop(symbol.name, combinations.sameSymbolsAnyLine)}
+              </td>
+            ))}
           </tr>
           <tr>
             <th>Combination of 3 same symbols line dependet</th>
@@ -43,29 +51,30 @@ function PayTable({ symbolCombination, stateOfSpining }) {
           <tr>
             <th>Award</th>
             {sameSymbolsLineDependent.map(symbol => (
-                <>
-                  <td>
-                    Top: {prop(
-                      'top',
-                      prop(symbol.name, combinations.sameSymbolsLineDependent)
-                    )}
-                  </td>
-                  <td>
-                    Center:{' '}
-                    {prop(
-                      'center',
-                      prop(symbol.name, combinations.sameSymbolsLineDependent)
-                    )}
-                  </td>
-                  <td>
-                    Bottom:{' '}
-                    {prop(
-                      'bottom',
-                      prop(symbol.name, combinations.sameSymbolsLineDependent)
-                    )}
-                  </td>
-                </>
-              ))}
+              <>
+                <td>
+                  Top:{' '}
+                  {prop(
+                    'top',
+                    prop(symbol.name, combinations.sameSymbolsLineDependent)
+                  )}
+                </td>
+                <td>
+                  Center:{' '}
+                  {prop(
+                    'center',
+                    prop(symbol.name, combinations.sameSymbolsLineDependent)
+                  )}
+                </td>
+                <td>
+                  Bottom:{' '}
+                  {prop(
+                    'bottom',
+                    prop(symbol.name, combinations.sameSymbolsLineDependent)
+                  )}
+                </td>
+              </>
+            ))}
           </tr>
           <tr>
             <th>Combination of any 3 symbols</th>
@@ -95,8 +104,11 @@ function PayTable({ symbolCombination, stateOfSpining }) {
     </div>
   );
 }
-const TableImages = ({symbols}) => symbols.map(symbol => <td>
-  <img src={symbol.img} className='tableImage'></img>
-  </td>);
+const TableImages = ({ symbols }) =>
+  symbols.map(symbol => (
+    <td>
+      <img src={symbol.img} className='tableImage'></img>
+    </td>
+  ));
 
 export default PayTable;

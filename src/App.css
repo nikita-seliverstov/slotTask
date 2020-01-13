@@ -59,14 +59,17 @@
   text-align: left;
   color: white;
 }
-
-@keyframes invalid {
-  from { background-color: red; }
+.award {
+  border-top: 0px;
+}
+@keyframes awardBlink {
+  from { background-color: yellow; }
   to { background-color: inherit; }
 }
-.invalid {
-  -webkit-animation: invalid 2s infinite; /* Safari 4+ */
-  -moz-animation:    invalid 2s infinite; /* Fx 5+ */
-  -o-animation:      invalid 2s infinite; /* Opera 12+ */
-  animation:         invalid 0.4s infinite; /* IE 10+ */
+.awardBlink {
+  -webkit-animation: awardBlink 0.4s ; /* Safari 4+ */
+  -moz-animation:    awardBlink 0.4s ; /* Fx 5+ */
+  -o-animation:      awardBlink 0.4s ; /* Opera 12+ */
+  animation:         awardBlink 0.4s ; /* IE 10+ */
+  animation-iteration-count: 4;
 }
