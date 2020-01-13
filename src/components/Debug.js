@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {Button} from 'reactstrap';
-function Debug({setFixedPositions}) {
+function Debug({debugMode,setFixedPositions}) {
     const [firstReelLine, setFirstReelLine] = useState("top");
     const [firstReelSymbol, setFirstReelSymbol] = useState("0");
     const [secondReelLine, setSecondReelLine] = useState("top");
@@ -8,13 +8,14 @@ function Debug({setFixedPositions}) {
     const [thirdReelLine, setThirdReelLine] = useState("top");
     const [thirdReelSymbol, setThirdReelSymbol] = useState("0");
     return(
+      debugMode &&
   <div className='container'>
     <div className='row'>
       <div className='col-4'>
           <select value={firstReelLine} onChange={event => setFirstReelLine(event.target.value)}>
-            <option value="Top">Top</option>
-            <option value="Center">Center</option>
-            <option value="Bottom">Bottom</option>
+            <option value="top">Top</option>
+            <option value="center">Center</option>
+            <option value="bottom">Bottom</option>
           </select>
           <select value={firstReelSymbol} onChange={event => setFirstReelSymbol(event.target.value)}>
             <option value="0">3xBAR</option>
@@ -26,9 +27,9 @@ function Debug({setFixedPositions}) {
       </div>
       <div className='col-4'>
       <select value={secondReelLine} onChange={event => setSecondReelLine(event.target.value)}>
-            <option value="Top">Top</option>
-            <option value="Center">Center</option>
-            <option value="Bottom">Bottom</option>
+            <option value="top">Top</option>
+            <option value="center">Center</option>
+            <option value="bottom">Bottom</option>
           </select>
           <select value={secondReelSymbol} onChange={event => setSecondReelSymbol(event.target.value)}>
             <option value="0">3xBAR</option>
@@ -40,9 +41,9 @@ function Debug({setFixedPositions}) {
       </div>
       <div className='col-4'>
       <select value={thirdReelLine} onChange={event =>setThirdReelLine(event.target.value)}>
-            <option value="Top">Top</option>
-            <option value="Center">Center</option>
-            <option value="Bottom">Bottom</option>
+            <option value="top">Top</option>
+            <option value="center">Center</option>
+            <option value="bottom">Bottom</option>
           </select>
           <select value={thirdReelSymbol} onChange={event => setThirdReelSymbol(event.target.value)}>
             <option value="0">3xBAR</option>

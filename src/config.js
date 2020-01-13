@@ -38,3 +38,5 @@ export const combinations = {
     }
   }
 };
+export const pricePerSpin = 1;
+export const balanceLimit = 5000;

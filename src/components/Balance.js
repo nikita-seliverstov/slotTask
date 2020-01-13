@@ -12,6 +12,7 @@ function Balance({setBalance, balance, symbolCombination}) {
         Set balance:{' '}
         <Input
           type='number'
+          min='0'
           onChange={event => setBalance(event.target.value)}
           value={balance}></Input>
       </div>

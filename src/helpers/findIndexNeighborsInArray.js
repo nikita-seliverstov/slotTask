@@ -10,7 +10,7 @@ const getPrevElementInArray = curry((array, index) =>
 const getNextSymbol = getNextElementInArray(symbols);
 const getPrevSymbol = getPrevElementInArray(symbols);
 export const findSymbolNeighbors = position =>
-  position.line === 'Center'
+  position.line === 'center'
     ? {
         top: getNextSymbol(Number(position.symbolIndex)),
         bottom: getPrevSymbol(Number(position.symbolIndex)),

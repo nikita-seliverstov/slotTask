@@ -6,7 +6,6 @@ import {
     curry,
     isEmpty,
     keys,
-    
   } from 'ramda';
 // checks line for combinations return obj with award if exist
 export function checkforCombinations(positions, line) {
