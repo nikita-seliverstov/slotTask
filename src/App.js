@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button } from "reactstrap";
 import { compose } from "ramda";
 import "react-toggle/style.css";
-import { prop, filter, contains, curry, isEmpty, keys } from "ramda";
+import { prop, filter, contains, curry, isEmpty, keys, sum, values } from "ramda";
 import "./App.css";
 import ToggleDebud from "./components/ToggleDebug";
 import Balance from "./components/Balance";
@@ -19,27 +19,33 @@ function App() {
   const [symbolCombination, setCombinations] = useState();
   const [debugMode, setDebugMode] = useState(false);
   const [balance, setBalance] = useState(0);
- 
-  const payForSpin = () => setBalance(balance - 1);
-  const setBalanceLimitedTo5000 = number =>
-    number <= 5000 && number  >= 0  && setBalance(number);
-    const activateSpin = (award) => {
+  const payForSpin = (x) => { setBalance(balance - 1)
+  return x
+  };
+  const setBalanceLimitedTo5000 = number =>   number  >= 0  ? (number<= 5000 ? setBalance(number) : setBalance(5000)) : null ;
+    const activateSpin = (awards) => {
       setStateOfSpining(true);
-      setTimeout(() => {setStateOfSpining(false);  giveAward(award)}, 3000);
+      setTimeout(() => {setStateOfSpining(false);  giveAward(awards)}, 3000);
       
     };
-    function giveAward(award){
-      const lines = keys(award);
-      
-      
+    function giveAward(awards){
+      const PriceForSpin = 1;
+      const TopLineAward = awards.top.award ? awards.top.award : 0;
+      const CenterLineAward = awards.center.award ? awards.center.award : 0;
+      const BottomLineAward = awards.bottom.award ? awards.bottom.award : 0;
+      const LineAwardCombined = Number(TopLineAward) + Number(CenterLineAward) + Number(BottomLineAward);
+      console.log(LineAwardCombined);
+      setBalanceLimitedTo5000(LineAwardCombined  + Number(balance) - Number(PriceForSpin))
     }
     const spinRandom = compose(activateSpin, winCombinations, symbolPositions, symbolsOnStopLines,winLinesToStopOn,payForSpin);
-    const spinFixed = compose(activateSpin, winCombinations, symbolPositions);
+    const spinFixed = compose(activateSpin, winCombinations, symbolPositions, payForSpin);
 
   return (
     <div className="App">
       <ToggleDebud setDebugMode={setDebugMode} debugMode={debugMode} />
       <Balance symbolCombination={symbolCombination} setBalance={setBalanceLimitedTo5000} balance={balance} />
+      
+     
       <PayTable
         stateOfSpining={stateOfSpining}
         symbolCombination={symbolCombination}
@@ -51,6 +57,8 @@ function App() {
         positions={positions}
         symbolCombination={symbolCombination}
       />
+      
+      
       {debugMode === false ? (
         <Button
           className="btn-lg m-3"
@@ -67,9 +75,9 @@ function App() {
       ) : (
         <Button
           className="btn-lg m-3"
-          onClick={() =>
+          onClick={() => 
             balance !== 0
-              ?  spinFixed(fixedPositions)
+              ?  (fixedPositions ? spinFixed(fixedPositions) : alert('set position'))
               : alert("not enough balance")
           }
           disabled={stateOfSpining}

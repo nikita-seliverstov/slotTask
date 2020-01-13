@@ -4,15 +4,16 @@ import { symbols } from "../config";
 import { ReelElement, CellElement } from "../styles/styled-components";
 
 function SlotMachine({stateOfSpining, positions, symbolCombination}) {
-  const redLineIfWin = (line) => stateOfSpining === false && symbolCombination !== undefined  ? symbolCombination[line] !== false && " lineBlink":null
+  const redLineIfWin = (line) => stateOfSpining === false && symbolCombination !== undefined  ? symbolCombination[line].award !== 0 && "lineBlink" :null
+  console.log()
   return (
     <div className="container">
     <div className="slotMachine">
     
-      <div className={"redLine-top" + redLineIfWin('top')
+      <div className={"redLine-top " + redLineIfWin('top')
     }> </div>
-      <div className={"redLine-center" + redLineIfWin('center')}> </div>
-      <div className={"redLine-bottom"+ redLineIfWin('bottom')}  > </div>
+      <div className={"redLine-center " + redLineIfWin('center')}> </div>
+      <div className={"redLine-bottom "+ redLineIfWin('bottom')}  > </div>
       
       <div className="row">
        
