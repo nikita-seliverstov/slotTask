@@ -2,6 +2,7 @@
 
 ## Problems
 I did't understand one part:
+
 when symbol stop's on a center line does partly visible top and bottom lines counts as win linse
 so I made two branches
 
