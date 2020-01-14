@@ -10,7 +10,15 @@ Master: top and bottom counts as win lines when stoped on center
 
 on-center-stop-line-ignore-bottom-an-top-win-lines : ignore top and bottom when stopped on center
 
+### Responsive design
+It's hard to combine work and test task so I could't optimize App look for diffrent screens
+
+The app is only made for full screen desktop
+
 ## Live demo
 Master: https://modest-jang-f1f1de.netlify.com
 
 on-center-stop-line-ignore-bottom-an-top-win-lines: https://modest-lichterman-f52ea8.netlify.com
+
+
+
