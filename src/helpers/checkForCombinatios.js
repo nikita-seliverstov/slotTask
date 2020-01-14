@@ -9,7 +9,6 @@ export function checkforCombinations(positions, line) {
       : prop('center', x) === false ?
         prop('name', symbols[prop(line, x)]) : undefined
   );
-console.log(arrayForCurrentLine);
   const allEqual = arr => arr.every(v => v === arr[0] && v !== undefined);
   const everyArrElemContainsObjVal = curry((arr, objVal) =>
     arr.every(elem => contains(elem, objVal.contains))
