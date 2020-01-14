@@ -4,8 +4,12 @@ import { prop, filter, contains, curry, isEmpty, keys } from 'ramda';
 export function checkforCombinations(positions, line) {
   // get array for line and replace values with compared symbol name for prop search
   const arrayForCurrentLine = positions.map(x =>
-    prop('name', symbols[prop(line, x)])
+    line === 'center'
+      ? prop('name', symbols[prop(line, x)])
+      : prop('center', x) === false &&
+        prop('name', symbols[prop(line, x)])
   );
+
   const allEqual = arr => arr.every(v => v === arr[0] && v !== undefined);
   const everyArrElemContainsObjVal = curry((arr, objVal) =>
     arr.every(elem => contains(elem, objVal.contains))
