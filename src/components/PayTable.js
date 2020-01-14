@@ -1,7 +1,7 @@
-import React from "react";
-import { Table } from "reactstrap";
-import { symbols, combinations } from "../config";
-import { prop, map, values, keys } from "ramda";
+import React from 'react';
+import { Table } from 'reactstrap';
+import { symbols, combinations } from '../config';
+import { prop, map, values, keys } from 'ramda';
 function PayTable({ symbolCombination, stateOfSpining }) {
   const notSameSymbolCombinations = values(
     map(x => x.containsID, combinations.notSameSymbolsAnyLine)
@@ -21,8 +21,14 @@ function PayTable({ symbolCombination, stateOfSpining }) {
   const checkIfAwardIsEqual = award =>
     winingCombinationArr.some(combination => combination.award === award);
 
+  const TableImages = ({ symbols }) =>
+    symbols.map(symbol => (
+      <td>
+        <img src={symbol.img} alt={symbols.name} className='tableImage'></img>
+      </td>
+    ));
   return (
-    <div className="col-2 m-3">
+    <div className='col-2 m-3'>
       <Table>
         <tbody>
           <tr>
@@ -37,10 +43,9 @@ function PayTable({ symbolCombination, stateOfSpining }) {
                   !stateOfSpining
                     ? checkIfAwardIsEqual(
                         prop(symbol.name, combinations.sameSymbolsAnyLine)
-                      ) && "awardBlink"
+                      ) && 'awardBlink'
                     : false
-                }
-              >
+                }>
                 {prop(symbol.name, combinations.sameSymbolsAnyLine)}
               </td>
             ))}
@@ -54,13 +59,16 @@ function PayTable({ symbolCombination, stateOfSpining }) {
             {sameSymbolsLineDependent.map(symbol =>
               keys(combinations.sameSymbolsLineDependent[symbol.name]).map(
                 line => (
-                  <td className={
-                    !stateOfSpining
-                    ? checkIfAwardIsEqual(
-                      combinations.sameSymbolsLineDependent[symbol.name][line]
-                    ) && "awardBlink"
-                  : false
-                  }>
+                  <td
+                    className={
+                      !stateOfSpining
+                        ? checkIfAwardIsEqual(
+                            combinations.sameSymbolsLineDependent[symbol.name][
+                              line
+                            ]
+                          ) && 'awardBlink'
+                        : false
+                    }>
                     {line}
                     <br />
                     {combinations.sameSymbolsLineDependent[symbol.name][line]}
@@ -74,7 +82,10 @@ function PayTable({ symbolCombination, stateOfSpining }) {
             {notSameSymbolCombinations.map(combinations => (
               <td>
                 {combinations.map(element => (
-                  <img src={symbols[element].img} alt={symbols[element].name} className="tableImage"></img>
+                  <img
+                    src={symbols[element].img}
+                    alt={symbols[element].name}
+                    className='tableImage'></img>
                 ))}
               </td>
             ))}
@@ -83,13 +94,11 @@ function PayTable({ symbolCombination, stateOfSpining }) {
             <th>Award</th>
             {notSameSymbolAward.map(award => (
               <td
-                className={ !stateOfSpining
-                  ? checkIfAwardIsEqual(
-                    award
-                  ) && "awardBlink"
-                : false
-                }
-              >
+                className={
+                  !stateOfSpining
+                    ? checkIfAwardIsEqual(award) && 'awardBlink'
+                    : false
+                }>
                 {award}
               </td>
             ))}
@@ -99,11 +108,5 @@ function PayTable({ symbolCombination, stateOfSpining }) {
     </div>
   );
 }
-const TableImages = ({ symbols }) =>
-  symbols.map(symbol => (
-    <td>
-      <img src={symbol.img} alt={symbols.name} className="tableImage"></img>
-    </td>
-  ));
 
 export default PayTable;

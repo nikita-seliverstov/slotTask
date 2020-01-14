@@ -14,12 +14,12 @@ export const symbols = [
 export const combinations = {
   sameSymbolsAnyLine: {
     '3xBAR': 50,
-    'BAR': 10,
+    BAR: 10,
     '2xBAR': 20,
     '7': 150
   },
   sameSymbolsLineDependent: {
-    'Cherry': {
+    Cherry: {
       top: 2000,
       center: 1000,
       bottom: 4000
@@ -28,7 +28,7 @@ export const combinations = {
   notSameSymbolsAnyLine: {
     CherryAnd7: {
       contains: ['Cherry', '7'],
-      containsID: [4,3],
+      containsID: [4, 3],
       award: 75
     },
     BAR: {
@@ -40,3 +40,4 @@ export const combinations = {
 };
 export const pricePerSpin = 1;
 export const balanceLimit = 5000;
+export const degreesToPutNextSymbolToCenter = -360 / symbols.length;

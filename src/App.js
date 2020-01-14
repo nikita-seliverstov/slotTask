@@ -19,20 +19,8 @@ function App() {
   const [symbolCombination, setCombinations] = useState();
   const [debugMode, setDebugMode] = useState(false);
   const [balance, setBalance] = useState(0);
-
   const setBalanceLimited = number =>
     number < balanceLimit ? setBalance(number) : setBalance(balanceLimit);
-  function giveAward(awards) {
-    const PriceForSpin = 1;
-    const TopLineAward = awards.top.award ? awards.top.award : 0;
-    const CenterLineAward = awards.center.award ? awards.center.award : 0;
-    const BottomLineAward = awards.bottom.award ? awards.bottom.award : 0;
-    const LineAwardCombined =
-      Number(TopLineAward) + Number(CenterLineAward) + Number(BottomLineAward);
-    setBalanceLimited(
-      LineAwardCombined + Number(balance) - Number(PriceForSpin)
-    );
-  }
   const spinRandom = compose(activateSpin, winCombinations, symbolPositions, symbolsOnStopLines, winLinesToStopOn, payForSpin);
   const spinFixed = compose(activateSpin, winCombinations, symbolPositions, payForSpin);
   const initiateSpinRandom = () =>
@@ -73,7 +61,7 @@ function App() {
       <Debug debugMode={debugMode} setFixedPositions={setFixedPositions} />
     </div>
   );
-  // upda
+  // update balance accordint to pricePerSpin and if param was sended to composition -> pass it to next function
   function payForSpin(x) {
     setBalance(balance - pricePerSpin);
     return x;
@@ -147,6 +135,17 @@ function App() {
       setStateOfSpining(false);
       giveAward(awards);
     }, 3000);
+  }
+  function giveAward(awards) {
+    const PriceForSpin = 1;
+    const TopLineAward = awards.top.award ? awards.top.award : 0;
+    const CenterLineAward = awards.center.award ? awards.center.award : 0;
+    const BottomLineAward = awards.bottom.award ? awards.bottom.award : 0;
+    const LineAwardCombined =
+      Number(TopLineAward) + Number(CenterLineAward) + Number(BottomLineAward);
+    setBalanceLimited(
+      LineAwardCombined + Number(balance) - Number(PriceForSpin)
+    );
   }
 }
 
