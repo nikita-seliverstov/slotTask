@@ -23,15 +23,6 @@ function App() {
     number < balanceLimit ? setBalance(number) : setBalance(balanceLimit);
   const spinRandom = compose(activateSpin, winCombinations, symbolPositions, symbolsOnStopLines, winLinesToStopOn, payForSpin);
   const spinFixed = compose(activateSpin, winCombinations, symbolPositions, payForSpin);
-  const initiateSpinRandom = () =>
-    balance !== 0 ? spinRandom() : alert('not enough balance');
-  const initiateSpinFixed = (balance, fixedPositions) =>
-    balance !== 0
-      ? fixedPositions
-        ? spinFixed(fixedPositions)
-        : alert('set position')
-      : alert('not enough balance');
-
   return (
     <div className='App'>
       <ToggleDebud setDebugMode={setDebugMode} debugMode={debugMode} />
@@ -53,8 +44,8 @@ function App() {
       <SpinButton
         balance={balance}
         debugMode={debugMode}
-        initiateSpinRandom={initiateSpinRandom}
-        initiateSpinFixed={initiateSpinFixed}
+        spinRandom={spinRandom}
+        spinFixed={spinFixed}
         fixedPositions={fixedPositions}
         stateOfSpining={stateOfSpining}
       />
