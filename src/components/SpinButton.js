@@ -10,9 +10,9 @@ function SpinButton({
   stateOfSpining
 }) {
   const initiateSpinRandom = balance =>
-    Number(balance) !== 0 ? spinRandom() : alert('not enough balance');
+    Number(balance) > 0 ? spinRandom() : alert('not enough balance');
   const initiateSpinFixed = (balance, fixedPositions) =>
-    Number(balance) !== 0
+    Number(balance) > 0
       ? fixedPositions
         ? spinFixed(fixedPositions)
         : alert('set position')
