@@ -15,6 +15,10 @@ It's hard to combine work and test task so I could't optimize App look for diffr
 
 The app looks well only in full screen desktop
 
+### Debug mode
+
+You should always push set positions button to change where reels need to stop otherwise it will use old value
+
 ## Live demo
 Master: https://modest-jang-f1f1de.netlify.com
 
