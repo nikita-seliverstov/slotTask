@@ -1,18 +1,27 @@
 import React from 'react';
 import { Button } from 'reactstrap';
 
-function SpinButton({
-  balance,
-  debugMode,
-  spinRandom,
-  spinFixed,
-  fixedPositions,
-  stateOfSpining
-}) {
-  const initiateSpinRandom = balance =>
-    Number(balance) > 0 ? spinRandom() : alert('not enough balance');
-  const initiateSpinFixed = (balance, fixedPositions) =>
-    Number(balance) > 0
+interface SpinButtonProps {
+  balance: number,
+  debugMode: boolean,
+  spinRandom(): void
+  spinFixed(positions: object): void
+  fixedPositions: object,
+  stateOfSpining: boolean
+}
+
+const SpinButton: React.FC<SpinButtonProps> = props => {
+  const {balance,
+    debugMode,
+    spinRandom,
+    spinFixed,
+    fixedPositions,
+    stateOfSpining} = props;
+   
+  const initiateSpinRandom = (balance: number) =>
+    balance > 0 ? spinRandom() : alert('not enough balance');
+  const initiateSpinFixed = (balance: number, fixedPositions: object) =>
+    balance > 0
       ? fixedPositions
         ? spinFixed(fixedPositions)
         : alert('set position')

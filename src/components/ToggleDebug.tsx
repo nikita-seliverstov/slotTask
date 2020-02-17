@@ -1,6 +1,12 @@
 import React from 'react';
 import Toggle from 'react-toggle';
-function ToogleDebug({ debugMode, setDebugMode }) {
+
+interface ToggleDebugProps {
+  debugMode: boolean, 
+  setDebugMode(currentMode:boolean): void
+}
+
+const ToogleDebug: React.FC<ToggleDebugProps> = ({ debugMode, setDebugMode }) => {
   return (
     <>
       <div className='container'>

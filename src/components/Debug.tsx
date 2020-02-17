@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { Button } from 'reactstrap';
-function Debug({ debugMode, setFixedPositions }) {
+
+interface DebugProps {
+  setFixedPositions(positions:any): void
+}
+
+const Debug: React.FC<DebugProps> = ({ setFixedPositions }) => {
   const [firstReelLine, setFirstReelLine] = useState('top');
   const [firstReelSymbol, setFirstReelSymbol] = useState('0');
   const [secondReelLine, setSecondReelLine] = useState('top');
@@ -8,7 +13,7 @@ function Debug({ debugMode, setFixedPositions }) {
   const [thirdReelLine, setThirdReelLine] = useState('top');
   const [thirdReelSymbol, setThirdReelSymbol] = useState('0');
   return (
-    debugMode && (
+    
       <div className='container'>
         <div className='row'>
           <div className='col-4'>
@@ -70,7 +75,7 @@ function Debug({ debugMode, setFixedPositions }) {
           Set positions
         </Button>
       </div>
-    )
+   
   );
   // pass positions to state
   function getPositionsAndSetState() {

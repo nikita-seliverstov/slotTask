@@ -2,7 +2,13 @@ import React from 'react';
 import { Table } from 'reactstrap';
 import { symbols, combinations } from '../config';
 import { prop, map, values, keys } from 'ramda';
-function PayTable({ symbolCombination, stateOfSpining }) {
+
+interface PayTableProps {
+  symbolCombination: object,
+  stateOfSpining: boolean
+}
+
+const PayTable: React.FC<PayTableProps> = ({ symbolCombination, stateOfSpining }) => {
   const notSameSymbolCombinations = values(
     map(x => x.containsID, combinations.notSameSymbolsAnyLine)
   );

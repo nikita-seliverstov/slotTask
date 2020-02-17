@@ -1,7 +1,13 @@
 import React from 'react';
 import { Input } from 'reactstrap';
 
-function Balance({setBalance, balance, symbolCombination}) {
+interface BalanceProps {
+  setBalance(n: number): void,
+  balance: number,
+  symbolCombination: object
+}
+
+const Balance : React.FC<BalanceProps> = ({setBalance, balance, symbolCombination}) => {
   return (
     <div className='container-fluid balance'>
       <div className='col'>
@@ -13,7 +19,7 @@ function Balance({setBalance, balance, symbolCombination}) {
         <Input
           type='number'
           min='0'
-          onChange={event => setBalance(event.target.value)}
+          onChange={(event: {target: HTMLInputElement;})=> setBalance(Number(event.target.value))}
           value={balance}></Input>
       </div>
     </div>

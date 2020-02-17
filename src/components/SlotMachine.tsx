@@ -3,7 +3,13 @@ import { keyframes } from 'styled-components';
 import { symbols, degreesToPutNextSymbolToCenter } from '../config';
 import { ReelElement, CellElement } from '../styles/styled-components';
 
-function SlotMachine({ stateOfSpining, positions, symbolCombination }) {
+interface SlotMachineProps {
+  stateOfSpining: boolean,
+  positions: object,
+  symbolCombination: object
+}
+
+const SlotMachine: React.FC<SlotMachineProps> =({ stateOfSpining, positions, symbolCombination }) => {
   const redLineIfWin = line =>
     stateOfSpining === false && symbolCombination !== undefined
       ? symbolCombination[line].award !== 0 && 'lineBlink'

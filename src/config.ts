@@ -38,6 +38,6 @@ export const combinations = {
     }
   }
 };
-export const pricePerSpin = 1;
+export const pricePerSpin: number = 1;
 export const balanceLimit = 5000;
 export const degreesToPutNextSymbolToCenter = -360 / symbols.length;

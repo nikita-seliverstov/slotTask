@@ -1,12 +1,12 @@
 import { symbols, combinations } from '../config';
 import { prop, filter, contains, curry, isEmpty, keys } from 'ramda';
 // checks line for combinations return obj with award if exist
-export function checkforCombinations(positions, line) {
+export function checkforCombinations(positions: [], line: string) {
   // get array for line and replace values with compared symbol name for prop search
-  const arrayForCurrentLine = positions.map(x =>
+  const arrayForCurrentLine: string[] = positions.map(x =>
     prop('name', symbols[prop(line, x)])
   );
-  const allEqual = arr => arr.every(v => v === arr[0] && v !== undefined);
+  const allEqual = (arr:string[]) => arr.every(v => v === arr[0] && v !== undefined);
   const everyArrElemContainsObjVal = curry((arr, objVal) =>
     arr.every(elem => contains(elem, objVal.contains))
   );
