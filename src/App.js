@@ -19,8 +19,8 @@ function App() {
   const [symbolCombination, setCombinations] = useState();
   const [debugMode, setDebugMode] = useState(false);
   const [balance, setBalance] = useState(0);
-  const setBalanceLimited = (n : number) =>
-    n < balanceLimit ? setBalance(n) : setBalance(balanceLimit);
+  const setBalanceLimited = number =>
+    number < balanceLimit ? setBalance(number) : setBalance(balanceLimit);
   const spinRandom = compose(activateSpin, winCombinations, symbolPositions, symbolsOnStopLines, winLinesToStopOn, payForSpin);
   const spinFixed = compose(activateSpin, winCombinations, symbolPositions, payForSpin);
   return (
